@@ -1,10 +1,13 @@
 export const defaultTheme = {
   '--white': '#ffffff',
+  '--primary': '#CF0000',
 
-  '--cyan-100': '#ebffff',
-  '--cyan-500': '#61dafb',
-  '--cyan-700': '#092757',
-  '--cyan-800': '#00101c',
+  '--secondary': '#00CFCF',
+
+  '--secondary-100': '#D0FFFF',
+  '--secondary-700': '#188787',
+  '--secondary-800': '#204B4B',
+  '--secondary-900': '#182E2E',
 
   '--grey-300': '#b8b8b8',
   '--grey-500': '#696969',
@@ -12,7 +15,6 @@ export const defaultTheme = {
   '--grey-800': '#353538',
   '--grey-900': '#121214',
 
-  '--yellow-500': '#ffff66',
-  '--red-500': '#ff5050',
+  '--yellow-500': '#FFE800',
   '--green-500': '#66ff66',
 };
