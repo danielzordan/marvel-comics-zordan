@@ -26,6 +26,7 @@ interface ComicsContextType {
   handleClickNavigatePage: (page: number) => void;
   handleClickPreviousPage: () => void;
   handleSearch: (search: string) => void;
+  loadComic: (comicId: string | null) => Promise<Comic>;
 }
 
 interface ComicsProviderProps {
@@ -53,7 +54,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     ts: TIMESTAMP_BASE,
   });
 
-  const loadComics = useCallback(async () => {
+  const loadComicsList = useCallback(async () => {
     const params = {
       limit: requestConfig.limit,
       offset: requestConfig.offset,
@@ -78,8 +79,26 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   }, [requestConfig, searchString]);
 
   useEffect(() => {
-    loadComics();
-  }, [loadComics, requestConfig, searchString]);
+    loadComicsList();
+  }, [loadComicsList, requestConfig, searchString]);
+
+  const loadComic = useCallback(async (comicId: string | null) => {
+    if (!comicId) return null;
+
+    const params = {
+      ts: 1,
+      apikey: API_KEY,
+      hash: HASH,
+    };
+
+    const { data } = await api.get(`comics/${comicId}`, {
+      params,
+    });
+
+    const { results: comic } = data.data;
+
+    return comic[0];
+  }, []);
 
   function resetRequestConfig() {
     setRequestConfig({
@@ -129,6 +148,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     return {
       comics,
       requestConfig,
+      loadComic,
       handleClickNextPage,
       handleClickNavigatePage,
       handleClickPreviousPage,
@@ -137,6 +157,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   }, [
     comics,
     requestConfig,
+    loadComic,
     handleClickNextPage,
     handleClickNavigatePage,
     handleClickPreviousPage,

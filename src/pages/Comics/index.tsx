@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 import { FormEvent, useContext, useState } from 'react';
 import { ComicItem } from '../../components/ComicItem';
@@ -12,11 +13,27 @@ import {
 } from './styles';
 import { ComicsContext } from '../../contexts/ComicsContext';
 import { Pagination } from '../../components/Pagination';
+import { Comic } from '../../@types/comics';
 
 export function Comics() {
   const { comics, handleSearch } = useContext(ComicsContext);
+  const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useState('');
+
+  const handleClickComic = (comic: Comic) => {
+    navigate(
+      {
+        pathname: 'details',
+        search: `?${createSearchParams({
+          comicId: String(comic.id),
+        })}`,
+      },
+      {
+        state: comic,
+      }
+    );
+  };
 
   const handleSubmitSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -44,7 +61,11 @@ export function Comics() {
       {comics.total ? (
         <ComicsListContainer>
           {comics.comicsList.map((comic) => (
-            <ComicItem key={comic.id} comic={comic} />
+            <ComicItem
+              key={comic.id}
+              comic={comic}
+              handleClickItem={handleClickComic}
+            />
           ))}
         </ComicsListContainer>
       ) : (
