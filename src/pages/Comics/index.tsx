@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
@@ -6,37 +5,30 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { useContext } from 'react';
 import { ComicItem } from '../ComicItem';
 import {
   ComicsContainer,
   ComicsListContainer,
   PaginationFormContainer,
+  SearchForm,
   SearchFormButton,
-  SearchFormContainer,
   SearchFormInput,
 } from './styles';
+import { ComicsContext } from '../../contexts/ComicsContext';
 
 export function Comics() {
-  const [comics, setComics] = useState([]);
-
-  async function loadComics() {
-    const response = await fetch(
-      'https://gateway.marvel.com/v1/public/comics?limit=30&offset=30&ts=1&apikey=cd9f147c64cd174b64792d0914f2917d&hash=e9b5767664ccb44fc297036cdcbf8035'
-    );
-
-    const { data } = await response.json();
-
-    console.log(data);
-    setComics(data.results);
-  }
-
-  useEffect(() => {
-    loadComics();
-  }, []);
+  const {
+    comics,
+    handleSearch,
+    requestConfig,
+    handleClickNextPage,
+    handleClickPreviousPage,
+  } = useContext(ComicsContext);
 
   return (
     <ComicsContainer>
-      <SearchFormContainer>
+      <SearchForm onSubmit={handleSearch}>
         <SearchFormInput
           type="text"
           placeholder="Comic name"
@@ -46,28 +38,21 @@ export function Comics() {
           <FontAwesomeIcon icon={faSearch} />
           Search
         </SearchFormButton>
-      </SearchFormContainer>
+      </SearchForm>
 
       <ComicsListContainer>
-        {comics.map((comic) => (
-          <ComicItem
-            key={comic.id}
-            title={comic.title}
-            image={`${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`}
-          />
-        ))}
+        {comics &&
+          comics.map((comic) => <ComicItem key={comic.id} comic={comic} />)}
       </ComicsListContainer>
 
       <PaginationFormContainer>
-        <form>
-          <button type="submit">
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </button>
-          <span>1</span>
-          <button type="submit">
-            <FontAwesomeIcon icon={faArrowRight} />
-          </button>
-        </form>
+        <button type="button" onClick={handleClickPreviousPage}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </button>
+        <span>{requestConfig.offset / requestConfig.limit + 1}</span>
+        <button type="button" onClick={handleClickNextPage}>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </button>
       </PaginationFormContainer>
     </ComicsContainer>
   );

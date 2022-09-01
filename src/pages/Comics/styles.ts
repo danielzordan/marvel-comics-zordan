@@ -28,7 +28,7 @@ export const ComicsListContainer = styled.div`
   }
 `;
 
-export const SearchFormContainer = styled.form`
+export const SearchForm = styled.form`
   width: 100%;
   font-size: 1.125rem;
   font-weight: bold;
@@ -118,6 +118,8 @@ export const PaginationFormContainer = styled.div`
     color: ${(props) => props.theme['--secondary-900']};
     border: 0;
     border-radius: 4px;
+
+    cursor: pointer;
 
     &:disabled {
       opacity: 0.7;
