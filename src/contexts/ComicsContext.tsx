@@ -14,12 +14,18 @@ interface RequestConfig {
   ts: number;
 }
 
+interface ComicsDataType {
+  total: number;
+  comicsList: Comic[];
+}
+
 interface ComicsContextType {
-  comics: Comic[];
-  handleClickPreviousPage: () => void;
-  handleClickNextPage: () => void;
-  handleSearch: (search: string) => void;
+  comics: ComicsDataType;
   requestConfig: RequestConfig;
+  handleClickNextPage: () => void;
+  handleClickNavigatePage: (page: number) => void;
+  handleClickPreviousPage: () => void;
+  handleSearch: (search: string) => void;
 }
 
 interface ComicsProviderProps {
@@ -30,14 +36,21 @@ export const ComicsContext = createContext({} as ComicsContextType);
 
 const API_KEY = 'cd9f147c64cd174b64792d0914f2917d';
 const HASH = 'e9b5767664ccb44fc297036cdcbf8035';
+const OFFSET_BASE = 0;
+const LIMIT_BASE = 30;
+const TIMESTAMP_BASE = 1;
 
 export function ComicsProvider({ children }: ComicsProviderProps) {
-  const [comics, setComics] = useState<Comic[]>([]);
+  const [comics, setComics] = useState<ComicsDataType>({
+    total: 0,
+    comicsList: [],
+  });
+
   const [searchString, setSearchString] = useState('');
   const [requestConfig, setRequestConfig] = useState<RequestConfig>({
-    offset: 0,
-    limit: 30,
-    ts: 1,
+    offset: OFFSET_BASE,
+    limit: LIMIT_BASE,
+    ts: TIMESTAMP_BASE,
   });
 
   const loadComics = useCallback(async () => {
@@ -54,30 +67,37 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
       params,
     });
 
-    const { results } = data.data;
+    const { results: comicsList, total } = data.data;
 
-    if (results.length > 0) {
-      setComics(results);
+    if (total > 0) {
+      setComics({
+        total,
+        comicsList,
+      });
     }
   }, [requestConfig, searchString]);
 
   useEffect(() => {
     loadComics();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestConfig, searchString]);
+  }, [loadComics, requestConfig, searchString]);
 
   function resetRequestConfig() {
     setRequestConfig({
-      offset: 0,
-      limit: 30,
-      ts: 1,
+      offset: OFFSET_BASE,
+      limit: LIMIT_BASE,
+      ts: TIMESTAMP_BASE,
     });
   }
 
-  const handleSearch = useCallback(async (search: string) => {
-    setSearchString(search);
-    resetRequestConfig();
-  }, []);
+  const handleSearch = useCallback(
+    async (search: string) => {
+      if (search !== searchString) {
+        setSearchString(search);
+        resetRequestConfig();
+      }
+    },
+    [searchString]
+  );
 
   const handleClickNextPage = useCallback(async () => {
     setRequestConfig({
@@ -95,18 +115,30 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     }
   }, [requestConfig]);
 
+  const handleClickNavigatePage = useCallback(
+    async (page: number) => {
+      setRequestConfig({
+        ...requestConfig,
+        offset: requestConfig.limit * page,
+      });
+    },
+    [requestConfig]
+  );
+
   const state: ComicsContextType = useMemo(() => {
     return {
       comics,
+      requestConfig,
       handleClickNextPage,
+      handleClickNavigatePage,
       handleClickPreviousPage,
       handleSearch,
-      requestConfig,
     };
   }, [
     comics,
     requestConfig,
     handleClickNextPage,
+    handleClickNavigatePage,
     handleClickPreviousPage,
     handleSearch,
   ]);
