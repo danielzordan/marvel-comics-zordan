@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { useContext } from 'react';
-import { ComicItem } from '../ComicItem';
+import { ComicItem } from '../../components/ComicItem';
 import {
   ComicsContainer,
   ComicsListContainer,
