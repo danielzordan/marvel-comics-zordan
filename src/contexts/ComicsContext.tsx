@@ -18,7 +18,7 @@ interface ComicsContextType {
   comics: Comic[];
   handleClickPreviousPage: () => void;
   handleClickNextPage: () => void;
-  handleSearch: () => void;
+  handleSearch: (search: string) => void;
   requestConfig: RequestConfig;
 }
 
@@ -61,24 +61,27 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     loadComics();
   }, []);
 
-  const handleSearch = useCallback(async () => {
-    const { data } = await api.get('comics', {
-      params: {
-        limit: requestConfig.limit,
-        offset: requestConfig.offset,
-        ts: 1,
-        apikey: API_KEY,
-        hash: HASH,
-        titleStartsWith: 'spider',
-      },
-    });
+  const handleSearch = useCallback(
+    async (search: string) => {
+      const { data } = await api.get('comics', {
+        params: {
+          limit: requestConfig.limit,
+          offset: requestConfig.offset,
+          ts: 1,
+          apikey: API_KEY,
+          hash: HASH,
+          titleStartsWith: search,
+        },
+      });
 
-    const { results } = data.data;
+      const { results } = data.data;
 
-    if (results.length > 0) {
-      setComics(results);
-    }
-  }, [requestConfig]);
+      if (results.length > 0) {
+        setComics(results);
+      }
+    },
+    [requestConfig]
+  );
 
   const handleClickNextPage = useCallback(async () => {
     const { data } = await api.get('comics', {
@@ -103,7 +106,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   }, [requestConfig]);
 
   const handleClickPreviousPage = useCallback(async () => {
-    if (requestConfig.offset > requestConfig.limit) {
+    if (requestConfig.offset > 0) {
       const { data } = await api.get('comics', {
         params: {
           limit: requestConfig.limit,

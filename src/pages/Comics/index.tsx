@@ -5,7 +5,7 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { useContext } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { ComicItem } from '../../components/ComicItem';
 import {
   ComicsContainer,
@@ -26,13 +26,23 @@ export function Comics() {
     handleClickPreviousPage,
   } = useContext(ComicsContext);
 
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSubmitSearch = (e: FormEvent) => {
+    e.preventDefault();
+
+    handleSearch(searchValue);
+  };
+
   return (
     <ComicsContainer>
-      <SearchForm onSubmit={handleSearch}>
+      <SearchForm onSubmit={handleSubmitSearch}>
         <SearchFormInput
           type="text"
           placeholder="Comic name"
           id="comicNameSearch"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
         />
         <SearchFormButton type="submit">
           <FontAwesomeIcon icon={faSearch} />
