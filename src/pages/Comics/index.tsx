@@ -32,6 +32,7 @@ export function Comics() {
     e.preventDefault();
 
     handleSearch(searchValue);
+    setTimeout(setSearchValue, 1000, '');
   };
 
   return (
@@ -50,10 +51,15 @@ export function Comics() {
         </SearchFormButton>
       </SearchForm>
 
-      <ComicsListContainer>
-        {comics &&
-          comics.map((comic) => <ComicItem key={comic.id} comic={comic} />)}
-      </ComicsListContainer>
+      {comics ? (
+        <ComicsListContainer>
+          {comics.map((comic) => (
+            <ComicItem key={comic.id} comic={comic} />
+          ))}
+        </ComicsListContainer>
+      ) : (
+        <h1>Carregando...</h1>
+      )}
 
       <PaginationFormContainer>
         <button type="button" onClick={handleClickPreviousPage}>

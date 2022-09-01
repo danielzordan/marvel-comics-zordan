@@ -33,6 +33,7 @@ const HASH = 'e9b5767664ccb44fc297036cdcbf8035';
 
 export function ComicsProvider({ children }: ComicsProviderProps) {
   const [comics, setComics] = useState<Comic[]>([]);
+  const [searchString, setSearchString] = useState('');
   const [requestConfig, setRequestConfig] = useState<RequestConfig>({
     offset: 0,
     limit: 30,
@@ -40,14 +41,17 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   });
 
   const loadComics = useCallback(async () => {
+    const params = {
+      limit: requestConfig.limit,
+      offset: requestConfig.offset,
+      ts: 1,
+      apikey: API_KEY,
+      hash: HASH,
+      ...(searchString && { titleStartsWith: searchString }),
+    };
+
     const { data } = await api.get('comics', {
-      params: {
-        limit: requestConfig.limit,
-        offset: requestConfig.offset,
-        ts: 1,
-        apikey: API_KEY,
-        hash: HASH,
-      },
+      params,
     });
 
     const { results } = data.data;
@@ -55,77 +59,39 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     if (results.length > 0) {
       setComics(results);
     }
-  }, [requestConfig]);
+  }, [requestConfig, searchString]);
 
   useEffect(() => {
     loadComics();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestConfig, searchString]);
+
+  function resetRequestConfig() {
+    setRequestConfig({
+      offset: 0,
+      limit: 30,
+      ts: 1,
+    });
+  }
+
+  const handleSearch = useCallback(async (search: string) => {
+    setSearchString(search);
+    resetRequestConfig();
   }, []);
 
-  const handleSearch = useCallback(
-    async (search: string) => {
-      const { data } = await api.get('comics', {
-        params: {
-          limit: requestConfig.limit,
-          offset: requestConfig.offset,
-          ts: 1,
-          apikey: API_KEY,
-          hash: HASH,
-          titleStartsWith: search,
-        },
-      });
-
-      const { results } = data.data;
-
-      if (results.length > 0) {
-        setComics(results);
-      }
-    },
-    [requestConfig]
-  );
-
   const handleClickNextPage = useCallback(async () => {
-    const { data } = await api.get('comics', {
-      params: {
-        limit: requestConfig.limit,
-        offset: requestConfig.offset + requestConfig.limit,
-        ts: 1,
-        apikey: API_KEY,
-        hash: HASH,
-      },
+    setRequestConfig({
+      ...requestConfig,
+      offset: requestConfig.offset + requestConfig.limit,
     });
-
-    const { results } = data.data;
-
-    if (results.length > 0) {
-      setComics(results);
-      setRequestConfig({
-        ...requestConfig,
-        offset: requestConfig.offset + requestConfig.limit,
-      });
-    }
   }, [requestConfig]);
 
   const handleClickPreviousPage = useCallback(async () => {
     if (requestConfig.offset > 0) {
-      const { data } = await api.get('comics', {
-        params: {
-          limit: requestConfig.limit,
-          offset: requestConfig.offset - requestConfig.limit,
-          ts: 1,
-          apikey: API_KEY,
-          hash: HASH,
-        },
+      setRequestConfig({
+        ...requestConfig,
+        offset: requestConfig.offset - requestConfig.limit,
       });
-
-      const { results } = data.data;
-
-      if (results.length > 0) {
-        setComics(results);
-        setRequestConfig({
-          ...requestConfig,
-          offset: requestConfig.offset - requestConfig.limit,
-        });
-      }
     }
   }, [requestConfig]);
 
