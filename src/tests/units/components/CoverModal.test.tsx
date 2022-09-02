@@ -6,7 +6,7 @@ describe('Unit tests CoverModal component', () => {
   const mockedImageAlt = 'mocked-alt-image';
   const mockedImageSrc = 'mocked-src-image';
 
-  test('should render correctly when modal is open', () => {
+  it('should render correctly when modal is open', () => {
     render(
       <Dialog.Root open>
         <CoverModal imageAlt={mockedImageAlt} imagePath={mockedImageSrc} />
@@ -19,7 +19,7 @@ describe('Unit tests CoverModal component', () => {
     expect(thumbail).toHaveAttribute('alt', mockedImageAlt);
   });
 
-  test('should render correctly when modal is closed', () => {
+  it('should render correctly when modal is closed', () => {
     render(
       <Dialog.Root open={false}>
         <CoverModal imageAlt={mockedImageAlt} imagePath={mockedImageSrc} />

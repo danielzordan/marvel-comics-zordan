@@ -40,7 +40,7 @@ export function ComicDetailsContent({ comic }: ComicDetailsContentProps) {
           <SectionTitle>Characters</SectionTitle>
           <ul>
             {comic.characters.items.map((character) => (
-              <li>{character.name}</li>
+              <li key={character.resourceURI}>{character.name}</li>
             ))}
           </ul>
         </CitationItem>
@@ -49,7 +49,7 @@ export function ComicDetailsContent({ comic }: ComicDetailsContentProps) {
           <SectionTitle>Creators</SectionTitle>
           <ul>
             {comic.creators.items.map((character) => (
-              <li>{character.name}</li>
+              <li key={character.resourceURI}>{character.name}</li>
             ))}
           </ul>
         </CitationItem>

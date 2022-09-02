@@ -19,7 +19,7 @@ interface ComicsDataType {
   comicsList: Comic[];
 }
 
-interface ComicsContextType {
+export interface ComicsContextType {
   comics: ComicsDataType;
   requestConfig: RequestConfig;
   handleClickNextPage: () => void;
@@ -29,7 +29,7 @@ interface ComicsContextType {
   loadComic: (comicId: string | null) => Promise<Comic>;
 }
 
-interface ComicsProviderProps {
+export interface ComicsProviderProps {
   children: React.ReactNode;
 }
 

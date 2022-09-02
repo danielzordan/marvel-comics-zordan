@@ -12,7 +12,10 @@ export function ComicItem({ comic, handleClickItem }: ComicItemProps) {
   };
 
   return (
-    <ComicItemContainer onClick={handleClick}>
+    <ComicItemContainer
+      onClick={handleClick}
+      data-testid="comic-item-container"
+    >
       <ComicImageContainer>
         <ComicImage
           src={`${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`}

@@ -36,6 +36,7 @@ export function Pagination() {
         type="button"
         onClick={handleClickPreviousPage}
         disabled={currentPage === 1}
+        data-testid="pagination-button-previous-page"
       >
         <FontAwesomeIcon icon={faArrowLeft} />
       </ParginationButton>
@@ -58,6 +59,7 @@ export function Pagination() {
         type="button"
         onClick={handleClickNextPage}
         disabled={currentPage === numberOfPages}
+        data-testid="pagination-button-next-page"
       >
         <FontAwesomeIcon icon={faArrowRight} />
       </ParginationButton>
