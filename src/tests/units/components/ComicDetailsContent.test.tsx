@@ -6,7 +6,7 @@ import {
   mockedContextState,
   mockedComics,
   mockedComicsNullValues,
-} from './__mocks__';
+} from '../__mocks__/context';
 
 describe('Unit tests ComicDetailsContent component', () => {
   beforeEach(() => {

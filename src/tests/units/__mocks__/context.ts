@@ -95,5 +95,7 @@ export const mockedContextState: ComicsContextType = {
   handleClickNavigatePage: jest.fn(),
   handleClickPreviousPage: jest.fn(),
   handleSearch: jest.fn(),
-  loadComic: jest.fn(),
+  loadComic: jest.fn().mockImplementation(() => {
+    return mockedComics.comicsList[0];
+  }),
 };

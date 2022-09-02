@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComicItem } from '../../../components/ComicItem';
 import { ComicsContext } from '../../../contexts/ComicsContext';
-import { mockedContextState, mockedComics } from './__mocks__';
+import { mockedContextState, mockedComics } from '../__mocks__/context';
 
 describe('Unit tests ComicItem component', () => {
   const mockedHandleClickItem = jest.fn();

@@ -44,11 +44,12 @@ export function Home() {
 
   return (
     <ComicsContainer>
-      <SearchForm onSubmit={handleSubmitSearch}>
+      <SearchForm onSubmit={handleSubmitSearch} data-testid="home-search-form">
         <SearchFormInput
+          data-testid="home-search-form-input"
+          id="comicNameSearch"
           type="text"
           placeholder="Comic name"
-          id="comicNameSearch"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
@@ -69,7 +70,7 @@ export function Home() {
           ))}
         </ComicsListContainer>
       ) : (
-        <h1>Carregando...</h1>
+        <h1>Loading...</h1>
       )}
 
       <Pagination />

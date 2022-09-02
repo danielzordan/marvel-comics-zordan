@@ -50,7 +50,11 @@ export function ComicDetails() {
     <ComicsDetailsContainer>
       {comic ? (
         <ComicsDetailsContent>
-          <ComebackButton type="button" onClick={() => navigate(-1)}>
+          <ComebackButton
+            type="button"
+            onClick={() => navigate(-1)}
+            data-testid="comic-details-comeback-button"
+          >
             <FontAwesomeIcon icon={faArrowLeft} />
           </ComebackButton>
 
@@ -80,7 +84,7 @@ export function ComicDetails() {
           </ImagesContainer>
         </ComicsDetailsContent>
       ) : (
-        <h1>Carregando...</h1>
+        <h1>Loading...</h1>
       )}
     </ComicsDetailsContainer>
   );

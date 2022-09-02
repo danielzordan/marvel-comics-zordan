@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Pagination } from '../../../components/Pagination';
 import { ComicsContext } from '../../../contexts/ComicsContext';
-import { mockedContextState } from './__mocks__';
+import { mockedContextState } from '../__mocks__/context';
 
 describe('Unit tests Pagination component', () => {
   beforeEach(() => {
