@@ -15,7 +15,7 @@ import { ComicsContext } from '../../contexts/ComicsContext';
 import { Pagination } from '../../components/Pagination';
 import { Comic } from '../../@types/comics';
 
-export function Comics() {
+export function Home() {
   const { comics, handleSearch } = useContext(ComicsContext);
   const navigate = useNavigate();
 
