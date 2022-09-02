@@ -5,6 +5,7 @@ export const defaultTheme = {
   '--secondary': '#00CFCF',
 
   '--secondary-100': '#D0FFFF',
+  '--secondary-300': '#61ffff',
   '--secondary-700': '#188787',
   '--secondary-800': '#204B4B',
   '--secondary-900': '#182E2E',

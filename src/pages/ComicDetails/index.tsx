@@ -1,4 +1,4 @@
-import { faArrowLeft, faClose } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -6,22 +6,17 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Comic } from '../../@types/comics';
 import { ComicsContext } from '../../contexts/ComicsContext';
 import {
-  CitationsContainer,
-  SubsectionTitle,
   ComicImage,
   ComebackButton,
   ComicImageContainer,
   ComicsDetailsContainer,
   ComicsDetailsContent,
-  Description,
-  ImagesContainer,
-  InfoBox,
   TitleComic,
-  CitationItem,
-  ComicThumbnail,
-  Overlay,
-  ThumbnailContent,
+  ImagesContainer,
+  SubsectionTitle,
 } from './styles';
+import { CoverModal } from '../../components/CoverModal';
+import { ComicDetailsContent } from '../../components/ComicDetailsContent';
 
 interface LocationStateType {
   comic: Comic;
@@ -64,60 +59,13 @@ export function ComicDetails() {
               <TitleComic>{comic.title}</TitleComic>
             </Dialog.Trigger>
 
-            <Dialog.Portal>
-              <Dialog.Close>
-                <FontAwesomeIcon icon={faClose} />
-              </Dialog.Close>
-              <Overlay />
-              <ThumbnailContent>
-                <ComicThumbnail
-                  src={`${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`}
-                  alt={`Image of ${comic.title}`}
-                />
-              </ThumbnailContent>
-            </Dialog.Portal>
+            <CoverModal
+              imagePath={`${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`}
+              imageAlt={`Image of ${comic.title}`}
+            />
           </Dialog.Root>
 
-          <InfoBox>
-            <span>Format: {comic.format}</span>
-            <span>Pages: {comic.pageCount || 'missing data'}</span>
-          </InfoBox>
-
-          <Description>
-            <SubsectionTitle>Description</SubsectionTitle>
-            {comic.description ? (
-              <p>{comic.description}</p>
-            ) : (
-              <span>Missing data</span>
-            )}
-
-            <SubsectionTitle>Variant Description</SubsectionTitle>
-            {comic.variantDescription ? (
-              <p>{comic.variantDescription}</p>
-            ) : (
-              <span>Missing data</span>
-            )}
-          </Description>
-
-          <CitationsContainer>
-            <CitationItem>
-              <SubsectionTitle>Characters</SubsectionTitle>
-              <ul>
-                {comic.characters.items.map((character) => (
-                  <li>{character.name}</li>
-                ))}
-              </ul>
-            </CitationItem>
-
-            <CitationItem>
-              <SubsectionTitle>Creators</SubsectionTitle>
-              <ul>
-                {comic.creators.items.map((character) => (
-                  <li>{character.name}</li>
-                ))}
-              </ul>
-            </CitationItem>
-          </CitationsContainer>
+          <ComicDetailsContent comic={comic} />
 
           <SubsectionTitle>Images</SubsectionTitle>
           <ImagesContainer>
