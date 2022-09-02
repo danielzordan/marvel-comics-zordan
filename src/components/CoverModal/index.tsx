@@ -23,7 +23,11 @@ export function CoverModal({ imagePath, imageAlt }: CoverModalProps) {
         <CloseDialogButton>
           <FontAwesomeIcon icon={faClose} />
         </CloseDialogButton>
-        <ComicThumbnail src={imagePath} alt={imageAlt} />
+        <ComicThumbnail
+          data-testid="cover-modal-comic-thumbnail-image"
+          src={imagePath}
+          alt={imageAlt}
+        />
       </ThumbnailContent>
     </Dialog.Portal>
   );
