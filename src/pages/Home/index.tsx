@@ -53,7 +53,7 @@ export function Home() {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <SearchFormButton type="submit">
+        <SearchFormButton type="submit" title="Search comics">
           <FontAwesomeIcon icon={faSearch} />
           Search
         </SearchFormButton>

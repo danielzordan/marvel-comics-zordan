@@ -5,7 +5,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { Comic } from '../@types/comics';
+import { Comic, FavoritedComicType } from '../@types/comics';
 import { api } from '../lib/axios';
 
 interface RequestConfig {
@@ -27,6 +27,10 @@ export interface ComicsContextType {
   handleClickPreviousPage: () => void;
   handleSearch: (search: string) => void;
   loadComic: (comicId: string | null) => Promise<Comic>;
+  favoritedComics: FavoritedComicType[];
+  getStoragedFavoritedComics: () => void;
+  addFavoritedComics: (favoritedComic: FavoritedComicType) => void;
+  removeFavoritedComics: (comicId: number) => void;
 }
 
 export interface ComicsProviderProps {
@@ -48,6 +52,10 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   });
 
   const [searchString, setSearchString] = useState('');
+  const [favoritedComics, setFavoritedComics] = useState<FavoritedComicType[]>(
+    []
+  );
+
   const [requestConfig, setRequestConfig] = useState<RequestConfig>({
     offset: OFFSET_BASE,
     limit: LIMIT_BASE,
@@ -144,6 +152,44 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     [requestConfig]
   );
 
+  const getStoragedFavoritedComics = useCallback(async () => {
+    const storedFavoritedComics = localStorage.getItem('favoritedComics');
+
+    let parsedFavoritedComics: FavoritedComicType[] = [];
+    if (storedFavoritedComics) {
+      parsedFavoritedComics = await JSON.parse(storedFavoritedComics);
+    }
+
+    setFavoritedComics(parsedFavoritedComics);
+  }, []);
+
+  const addFavoritedComics = useCallback(
+    (favoritedComic: FavoritedComicType) => {
+      const newFavorites = [...favoritedComics, favoritedComic];
+      setFavoritedComics(newFavorites);
+
+      localStorage.setItem('favoritedComics', JSON.stringify(newFavorites));
+    },
+    [favoritedComics]
+  );
+
+  const removeFavoritedComics = useCallback(
+    (comicId: number) => {
+      const newFavorites = favoritedComics.filter(
+        (favoritedComic) => favoritedComic.comicId !== comicId
+      );
+
+      setFavoritedComics(newFavorites);
+
+      localStorage.setItem('favoritedComics', JSON.stringify(newFavorites));
+    },
+    [favoritedComics]
+  );
+
+  useEffect(() => {
+    getStoragedFavoritedComics();
+  }, [getStoragedFavoritedComics]);
+
   const state: ComicsContextType = useMemo(() => {
     return {
       comics,
@@ -153,6 +199,10 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
       handleClickNavigatePage,
       handleClickPreviousPage,
       handleSearch,
+      favoritedComics,
+      getStoragedFavoritedComics,
+      addFavoritedComics,
+      removeFavoritedComics,
     };
   }, [
     comics,
@@ -162,6 +212,10 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     handleClickNavigatePage,
     handleClickPreviousPage,
     handleSearch,
+    favoritedComics,
+    getStoragedFavoritedComics,
+    addFavoritedComics,
+    removeFavoritedComics,
   ]);
 
   return (

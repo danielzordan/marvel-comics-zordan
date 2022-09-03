@@ -37,7 +37,7 @@ describe('Unit tests ComicItem component', () => {
       </ComicsContext.Provider>
     );
 
-    const comicContainer = screen.getByTestId('comic-item-container');
+    const comicContainer = screen.getByTestId('comic-item-content');
     await userEvent.click(comicContainer);
 
     expect(mockedHandleClickItem).toBeCalledTimes(1);

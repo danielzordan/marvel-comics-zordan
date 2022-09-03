@@ -1,5 +1,14 @@
+import { useEffect, useState } from 'react';
 import { Comic } from '../../@types/comics';
-import { ComicImage, ComicImageContainer, ComicItemContainer } from './styles';
+import { useFavorite } from '../../hooks/useFavorite';
+import { FavoriteButton } from '../FavoriteButton';
+import {
+  ComicImage,
+  ComicImageContainer,
+  ComicItemContainer,
+  ComicItemContent,
+  FavoriteButtonContainer,
+} from './styles';
 
 interface ComicItemProps {
   comic: Comic;
@@ -7,22 +16,40 @@ interface ComicItemProps {
 }
 
 export function ComicItem({ comic, handleClickItem }: ComicItemProps) {
+  const { favoriteComic, isFavorite } = useFavorite();
+  const [isFavoriteComic, setIsFavoritedComic] = useState(false);
+
+  const comicThumnailUrl = `${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`;
+
+  const handleFavorite = () => {
+    favoriteComic(comic.id, comicThumnailUrl);
+  };
+
+  useEffect(() => {
+    setIsFavoritedComic(isFavorite(comic.id));
+  }, [comic.id, isFavorite]);
+
   const handleClick = () => {
     handleClickItem(comic);
   };
-
   return (
-    <ComicItemContainer
-      onClick={handleClick}
-      data-testid="comic-item-container"
-    >
-      <ComicImageContainer>
-        <ComicImage
-          src={`${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`}
-          alt=""
+    <ComicItemContainer>
+      <FavoriteButtonContainer>
+        <FavoriteButton
+          isFavoriteComic={isFavoriteComic}
+          handleFavoriteComic={handleFavorite}
         />
-      </ComicImageContainer>
-      <h2>{comic.title}</h2>
+      </FavoriteButtonContainer>
+
+      <ComicItemContent onClick={handleClick} data-testid="comic-item-content">
+        <ComicImageContainer>
+          <ComicImage
+            src={comicThumnailUrl}
+            alt={`Thumbnail of comic ${comic.title}`}
+          />
+        </ComicImageContainer>
+        <h2>{comic.title}</h2>
+      </ComicItemContent>
     </ComicItemContainer>
   );
 }

@@ -1,12 +1,8 @@
 import styled from 'styled-components';
 
 export const ComicItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   margin-top: 1rem;
-
+  position: relative;
   text-align: center;
 
   width: 90%;
@@ -26,6 +22,16 @@ export const ComicItemContainer = styled.div`
   }
 `;
 
+export const ComicItemContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  height: 35rem;
+  transition: 0.2s;
+`;
+
 export const ComicImageContainer = styled.div`
   display: block;
   width: 100%;
@@ -39,4 +45,10 @@ export const ComicImage = styled.img`
 
   width: auto;
   height: auto;
+`;
+
+export const FavoriteButtonContainer = styled.div`
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
 `;

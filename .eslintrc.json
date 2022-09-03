@@ -29,6 +29,13 @@
         "prettier"
     ],
     "rules": {
+        "react/require-default-props": [
+            "error",
+            {
+                "forbidDefaultForRequired": true,
+                "functions": "defaultArguments" //Here
+            }
+        ],
         "@typescript-eslint/no-empty-interface": [
             "error",
             {

@@ -6,6 +6,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Comic } from '../../@types/comics';
 import { ComicsContext } from '../../contexts/ComicsContext';
 import {
+  ActionsContainer,
   ComicImage,
   ComebackButton,
   ComicImageContainer,
@@ -17,6 +18,8 @@ import {
 } from './styles';
 import { CoverModal } from '../../components/CoverModal';
 import { ComicDetailsContent } from '../../components/ComicDetailsContent';
+import { FavoriteButton } from '../../components/FavoriteButton';
+import { useFavorite } from '../../hooks/useFavorite';
 
 interface LocationStateType {
   comic: Comic;
@@ -38,6 +41,25 @@ export function ComicDetails() {
     [loadComic]
   );
 
+  const { favoriteComic, isFavorite } = useFavorite();
+  const [isFavoriteComic, setIsFavoritedComic] = useState(false);
+
+  const comicThumnailUrl = comic
+    ? `${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`
+    : '';
+
+  const handleFavorite = () => {
+    if (comic) {
+      favoriteComic(comic.id, comicThumnailUrl);
+    }
+  };
+
+  useEffect(() => {
+    if (comic) {
+      setIsFavoritedComic(isFavorite(comic.id));
+    }
+  }, [comic, isFavorite]);
+
   useEffect(() => {
     if (!state || !state.comic) {
       const urlParams = new URLSearchParams(location.search);
@@ -50,13 +72,20 @@ export function ComicDetails() {
     <ComicsDetailsContainer>
       {comic ? (
         <ComicsDetailsContent>
-          <ComebackButton
-            type="button"
-            onClick={() => navigate(-1)}
-            data-testid="comic-details-comeback-button"
-          >
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </ComebackButton>
+          <ActionsContainer>
+            <ComebackButton
+              type="button"
+              onClick={() => navigate(-1)}
+              data-testid="comic-details-comeback-button"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </ComebackButton>
+
+            <FavoriteButton
+              handleFavoriteComic={handleFavorite}
+              isFavoriteComic={isFavoriteComic}
+            />
+          </ActionsContainer>
 
           <Dialog.Root>
             <Dialog.Trigger asChild>

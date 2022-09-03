@@ -71,8 +71,8 @@ export const ComicImage = styled.img`
 `;
 
 export const ComebackButton = styled.button`
-  width: 5rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 4px;
   border: 0;
   margin-bottom: 1rem;
@@ -87,4 +87,10 @@ export const ComebackButton = styled.button`
   &:hover {
     background: ${(props) => props.theme['--secondary-700']};
   }
+`;
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

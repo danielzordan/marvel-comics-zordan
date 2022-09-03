@@ -51,7 +51,7 @@ describe('Unit tests Home page', () => {
       </ComicsContext.Provider>
     );
 
-    const comicItem = screen.getAllByTestId('comic-item-container')[0];
+    const comicItem = screen.getAllByTestId('comic-item-content')[0];
     await fireEvent.click(comicItem);
 
     expect(mockedUseNavigate).toBeCalledTimes(1);
