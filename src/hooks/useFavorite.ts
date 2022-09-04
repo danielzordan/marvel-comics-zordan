@@ -1,8 +1,9 @@
 import React from 'react';
+import { Comic } from '../@types/comics';
 import { ComicsContext } from '../contexts/ComicsContext';
 
 interface UseFavoritesHookType {
-  favoriteComic: (comicId: number, comicThumbnailUrl: string) => void;
+  favoriteComic: (favoritedComic: Comic) => void;
   isFavorite: (comicId: number) => boolean;
 }
 
@@ -11,14 +12,14 @@ export function useFavorite(): UseFavoritesHookType {
     React.useContext(ComicsContext);
 
   const isFavorite = (comicId: number) => {
-    return favoritedComics.some((comic) => comic.comicId === comicId);
+    return favoritedComics.comicsList.some((comic) => comic.id === comicId);
   };
 
-  const favoriteComic = (comicId: number, comicThumbnailUrl: string) => {
-    if (isFavorite(comicId)) {
-      removeFavoritedComics(comicId);
+  const favoriteComic = (favoritedComic: Comic) => {
+    if (isFavorite(favoritedComic.id)) {
+      removeFavoritedComics(favoritedComic.id);
     } else {
-      addFavoritedComics({ comicId, comicThumbnailUrl });
+      addFavoritedComics(favoritedComic);
     }
   };
 

@@ -42,8 +42,3 @@ export interface Comic {
   creators: CreatorsType;
   characters: CharactersType;
 }
-
-export type FavoritedComicType = {
-  comicId: number;
-  comicThumbnailUrl: string;
-};

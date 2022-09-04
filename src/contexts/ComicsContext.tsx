@@ -5,7 +5,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { Comic, FavoritedComicType } from '../@types/comics';
+import { Comic } from '../@types/comics';
 import { api } from '../lib/axios';
 
 interface RequestConfig {
@@ -14,7 +14,7 @@ interface RequestConfig {
   ts: number;
 }
 
-interface ComicsDataType {
+export interface ComicsDataType {
   total: number;
   comicsList: Comic[];
 }
@@ -27,9 +27,9 @@ export interface ComicsContextType {
   handleClickPreviousPage: () => void;
   handleSearch: (search: string) => void;
   loadComic: (comicId: string | null) => Promise<Comic>;
-  favoritedComics: FavoritedComicType[];
+  favoritedComics: ComicsDataType;
   getStoragedFavoritedComics: () => void;
-  addFavoritedComics: (favoritedComic: FavoritedComicType) => void;
+  addFavoritedComics: (favoritedComic: Comic) => void;
   removeFavoritedComics: (comicId: number) => void;
 }
 
@@ -52,9 +52,10 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   });
 
   const [searchString, setSearchString] = useState('');
-  const [favoritedComics, setFavoritedComics] = useState<FavoritedComicType[]>(
-    []
-  );
+  const [favoritedComics, setFavoritedComics] = useState<ComicsDataType>({
+    total: 0,
+    comicsList: [],
+  });
 
   const [requestConfig, setRequestConfig] = useState<RequestConfig>({
     offset: OFFSET_BASE,
@@ -155,18 +156,24 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   const getStoragedFavoritedComics = useCallback(async () => {
     const storedFavoritedComics = localStorage.getItem('favoritedComics');
 
-    let parsedFavoritedComics: FavoritedComicType[] = [];
+    let parsedFavoritedComics: Comic[] = [];
     if (storedFavoritedComics) {
       parsedFavoritedComics = await JSON.parse(storedFavoritedComics);
     }
 
-    setFavoritedComics(parsedFavoritedComics);
+    setFavoritedComics({
+      total: parsedFavoritedComics.length,
+      comicsList: parsedFavoritedComics,
+    });
   }, []);
 
   const addFavoritedComics = useCallback(
-    (favoritedComic: FavoritedComicType) => {
-      const newFavorites = [...favoritedComics, favoritedComic];
-      setFavoritedComics(newFavorites);
+    (favoritedComic: Comic) => {
+      const newFavorites = [...favoritedComics.comicsList, favoritedComic];
+      setFavoritedComics({
+        total: newFavorites.length,
+        comicsList: newFavorites,
+      });
 
       localStorage.setItem('favoritedComics', JSON.stringify(newFavorites));
     },
@@ -175,11 +182,14 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
 
   const removeFavoritedComics = useCallback(
     (comicId: number) => {
-      const newFavorites = favoritedComics.filter(
-        (favoritedComic) => favoritedComic.comicId !== comicId
+      const newFavorites = favoritedComics.comicsList.filter(
+        (favoritedComic) => favoritedComic.id !== comicId
       );
 
-      setFavoritedComics(newFavorites);
+      setFavoritedComics({
+        total: newFavorites.length,
+        comicsList: newFavorites,
+      });
 
       localStorage.setItem('favoritedComics', JSON.stringify(newFavorites));
     },

@@ -11,9 +11,12 @@ import {
 const MAX_LEFT = 4;
 const MAX_ITEMS = 9;
 
-export function Pagination() {
+interface PaginationProps {
+  totalComics: number;
+}
+
+export function Pagination({ totalComics }: PaginationProps) {
   const {
-    comics,
     requestConfig,
     handleClickNextPage,
     handleClickNavigatePage,
@@ -24,7 +27,7 @@ export function Pagination() {
     ? requestConfig.offset / requestConfig.limit + 1
     : 1;
 
-  const numberOfPages = Math.ceil(comics.total / requestConfig.limit);
+  const numberOfPages = Math.ceil(totalComics / requestConfig.limit);
 
   const firstPage = Math.max(currentPage - MAX_LEFT, 1);
 

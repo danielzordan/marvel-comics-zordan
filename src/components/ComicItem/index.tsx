@@ -20,9 +20,10 @@ export function ComicItem({ comic, handleClickItem }: ComicItemProps) {
   const [isFavoriteComic, setIsFavoritedComic] = useState(false);
 
   const comicThumnailUrl = `${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`;
+  const comicThumnailAlt = `Thumbnail of comic ${comic.title}`;
 
   const handleFavorite = () => {
-    favoriteComic(comic.id, comicThumnailUrl);
+    favoriteComic(comic);
   };
 
   useEffect(() => {
@@ -43,10 +44,7 @@ export function ComicItem({ comic, handleClickItem }: ComicItemProps) {
 
       <ComicItemContent onClick={handleClick} data-testid="comic-item-content">
         <ComicImageContainer>
-          <ComicImage
-            src={comicThumnailUrl}
-            alt={`Thumbnail of comic ${comic.title}`}
-          />
+          <ComicImage src={comicThumnailUrl} alt={comicThumnailAlt} />
         </ComicImageContainer>
         <h2>{comic.title}</h2>
       </ComicItemContent>

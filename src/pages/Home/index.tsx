@@ -1,39 +1,23 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 
 import { FormEvent, useContext, useState } from 'react';
-import { ComicItem } from '../../components/ComicItem';
 import {
   ComicsContainer,
-  ComicsListContainer,
+  FavoriteFormButton,
   SearchForm,
   SearchFormButton,
   SearchFormInput,
 } from './styles';
 import { ComicsContext } from '../../contexts/ComicsContext';
 import { Pagination } from '../../components/Pagination';
-import { Comic } from '../../@types/comics';
+import { ComicsList } from '../../components/ComicsList';
 
 export function Home() {
-  const { comics, handleSearch } = useContext(ComicsContext);
-  const navigate = useNavigate();
+  const { comics, favoritedComics, handleSearch } = useContext(ComicsContext);
 
   const [searchValue, setSearchValue] = useState('');
-
-  const handleClickComic = (comic: Comic) => {
-    navigate(
-      {
-        pathname: 'details',
-        search: `?${createSearchParams({
-          comicId: String(comic.id),
-        })}`,
-      },
-      {
-        state: comic,
-      }
-    );
-  };
+  const [isActiveFavoriteFilter, setIsActiveFavoriteFilter] = useState(false);
 
   const handleSubmitSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -42,9 +26,22 @@ export function Home() {
     setTimeout(setSearchValue, 1000, '');
   };
 
+  const handleFilterFavoriteComics = () => {
+    setIsActiveFavoriteFilter(!isActiveFavoriteFilter);
+  };
+
   return (
     <ComicsContainer>
       <SearchForm onSubmit={handleSubmitSearch} data-testid="home-search-form">
+        <FavoriteFormButton
+          type="button"
+          title="Search comics"
+          onClick={handleFilterFavoriteComics}
+          isActive={isActiveFavoriteFilter}
+        >
+          <FontAwesomeIcon icon={faStar} />
+          Favorites
+        </FavoriteFormButton>
         <SearchFormInput
           data-testid="home-search-form-input"
           id="comicNameSearch"
@@ -59,21 +56,13 @@ export function Home() {
         </SearchFormButton>
       </SearchForm>
 
-      {comics.total ? (
-        <ComicsListContainer>
-          {comics.comicsList.map((comic) => (
-            <ComicItem
-              key={comic.id}
-              comic={comic}
-              handleClickItem={handleClickComic}
-            />
-          ))}
-        </ComicsListContainer>
-      ) : (
-        <h1>Loading...</h1>
-      )}
+      <ComicsList comics={isActiveFavoriteFilter ? favoritedComics : comics} />
 
-      <Pagination />
+      <Pagination
+        totalComics={
+          isActiveFavoriteFilter ? favoritedComics.total : comics.total
+        }
+      />
     </ComicsContainer>
   );
 }

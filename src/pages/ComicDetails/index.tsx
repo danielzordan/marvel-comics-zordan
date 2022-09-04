@@ -44,13 +44,9 @@ export function ComicDetails() {
   const { favoriteComic, isFavorite } = useFavorite();
   const [isFavoriteComic, setIsFavoritedComic] = useState(false);
 
-  const comicThumnailUrl = comic
-    ? `${comic.thumbnail.path}/detail.${comic.thumbnail.extension}`
-    : '';
-
   const handleFavorite = () => {
     if (comic) {
-      favoriteComic(comic.id, comicThumnailUrl);
+      favoriteComic(comic);
     }
   };
 

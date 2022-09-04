@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ComicsContainer = styled.main`
   flex: 1;
@@ -11,28 +11,10 @@ export const ComicsContainer = styled.main`
   justify-content: space-between;
 `;
 
-export const ComicsListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    row-gap: 1rem;
-    column-gap: 1rem;
-    flex-direction: row;
-    justify-items: center;
-  }
-`;
-
 export const SearchForm = styled.form`
   width: 100%;
   font-size: 1.125rem;
   font-weight: bold;
-
   flex-wrap: wrap;
 
   @media (min-width: 768px) {
@@ -47,7 +29,7 @@ export const SearchFormInput = styled.input`
   width: 100%;
   flex: 1;
   background: transparent;
-  height: 3rem;
+  height: 3.22rem;
   border-radius: 4px;
   font-size: 1.125rem;
   padding: 0 0.5rem;
@@ -61,7 +43,7 @@ export const SearchFormInput = styled.input`
   }
 `;
 
-export const SearchFormButton = styled.button`
+const SearchFormButtonBasic = styled.button`
   width: 100%;
   padding: 1rem;
   border-radius: 4px;
@@ -76,9 +58,6 @@ export const SearchFormButton = styled.button`
 
   cursor: pointer;
 
-  background: ${(props) => props.theme['--secondary']};
-  color: ${(props) => props.theme['--secondary-900']};
-
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -92,5 +71,34 @@ export const SearchFormButton = styled.button`
 
   @media (min-width: 768px) {
     width: 10rem;
+  }
+`;
+
+export const SearchFormButton = styled(SearchFormButtonBasic)`
+  background: ${(props) => props.theme['--secondary']};
+  color: ${(props) => props.theme['--secondary-900']};
+`;
+
+type FavoriteFormButtonProps = {
+  isActive: boolean;
+};
+
+export const FavoriteFormButton = styled(SearchFormButtonBasic)`
+  background: ${(props) => props.theme['--yellow-500']};
+  color: ${(props) => props.theme['--secondary-900']};
+  margin-bottom: 1rem;
+
+  ${({ isActive }: FavoriteFormButtonProps) =>
+    isActive
+      ? css`
+          background: transparent;
+          color: ${(props) => props.theme['--yellow-500']};
+          outline: 1px solid ${(props) => props.theme['--yellow-500']};
+        `
+      : ''};
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+    margin-right: 2rem;
   }
 `;
