@@ -5,6 +5,15 @@ import { ComicItem } from '../../../components/ComicItem';
 import { ComicsContext } from '../../../contexts/ComicsContext';
 import { mockedContextState, mockedComics } from '../__mocks__/context';
 
+const myMockUseFavorite = {
+  isFavorite: jest.fn().mockImplementation(() => true),
+  favoriteComic: jest.fn(),
+};
+
+jest.mock('../../../hooks/useFavorite', () => ({
+  useFavorite: () => myMockUseFavorite,
+}));
+
 describe('Unit tests ComicItem component', () => {
   const mockedHandleClickItem = jest.fn();
 
@@ -41,5 +50,21 @@ describe('Unit tests ComicItem component', () => {
     await userEvent.click(comicContainer);
 
     expect(mockedHandleClickItem).toBeCalledTimes(1);
+  });
+
+  it('should call favoriteComic correctly when star button is pressed ', async () => {
+    render(
+      <ComicsContext.Provider value={mockedContextState}>
+        <ComicItem
+          comic={mockedComics.comicsList[0]}
+          handleClickItem={mockedHandleClickItem}
+        />
+      </ComicsContext.Provider>
+    );
+
+    const favoriteComicButton = screen.getByTestId('favorite-button');
+    await userEvent.click(favoriteComicButton);
+
+    expect(myMockUseFavorite.favoriteComic).toBeCalledTimes(1);
   });
 });

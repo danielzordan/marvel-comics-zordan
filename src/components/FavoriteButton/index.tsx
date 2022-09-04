@@ -14,6 +14,7 @@ export function FavoriteButton({
 }: FavoriteButtonProps) {
   return (
     <FavoriteButtonComponent
+      data-testid="favorite-button"
       type="button"
       title={isFavoriteComic ? 'Unfavorite comic' : 'Favorite comic'}
       onClick={handleFavoriteComic}

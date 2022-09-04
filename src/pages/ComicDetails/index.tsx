@@ -99,7 +99,7 @@ export function ComicDetails() {
           <SubsectionTitle>Images</SubsectionTitle>
           <ImagesContainer>
             {comic.images.map((image) => (
-              <ComicImageContainer>
+              <ComicImageContainer key={image.path}>
                 <ComicImage
                   src={`${image.path}/detail.${image.extension}`}
                   alt={`Image of ${comic.title}`}

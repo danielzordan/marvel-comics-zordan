@@ -83,7 +83,7 @@ type FavoriteFormButtonProps = {
   isActive: boolean;
 };
 
-export const FavoriteFormButton = styled(SearchFormButtonBasic)`
+export const FavoriteFilterButton = styled(SearchFormButtonBasic)`
   background: ${(props) => props.theme['--yellow-500']};
   color: ${(props) => props.theme['--secondary-900']};
   margin-bottom: 1rem;

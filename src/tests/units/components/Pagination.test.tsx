@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Pagination } from '../../../components/Pagination';
 import { ComicsContext } from '../../../contexts/ComicsContext';
-import { mockedContextState } from '../__mocks__/context';
+import { mockedContextState, mockedComics } from '../__mocks__/context';
 
 describe('Unit tests Pagination component', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Unit tests Pagination component', () => {
   it('should render correctly in position 0', () => {
     render(
       <ComicsContext.Provider value={mockedContextState}>
-        <Pagination />
+        <Pagination totalComics={mockedComics.total} />
       </ComicsContext.Provider>
     );
 
@@ -34,7 +34,7 @@ describe('Unit tests Pagination component', () => {
           },
         }}
       >
-        <Pagination />
+        <Pagination totalComics={mockedComics.total} />
       </ComicsContext.Provider>
     );
 
@@ -57,7 +57,7 @@ describe('Unit tests Pagination component', () => {
           },
         }}
       >
-        <Pagination />
+        <Pagination totalComics={mockedComics.total} />
       </ComicsContext.Provider>
     );
 
@@ -80,7 +80,7 @@ describe('Unit tests Pagination component', () => {
           },
         }}
       >
-        <Pagination />
+        <Pagination totalComics={mockedComics.total} />
       </ComicsContext.Provider>
     );
 

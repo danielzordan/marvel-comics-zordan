@@ -11,8 +11,6 @@ interface ComicsListProps {
 export function ComicsList({ comics }: ComicsListProps) {
   const navigate = useNavigate();
 
-  console.log(comics);
-
   const handleClickComic = (comic: Comic) => {
     navigate(
       {

@@ -15,6 +15,15 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => mockedUseLocation,
 }));
 
+const myMockUseFavorite = {
+  isFavorite: jest.fn().mockImplementation(() => true),
+  favoriteComic: jest.fn(),
+};
+
+jest.mock('../../../hooks/useFavorite', () => ({
+  useFavorite: () => myMockUseFavorite,
+}));
+
 describe('Unit tests ComicDetails page', () => {
   beforeEach(() => {
     jest.setTimeout(60000);
@@ -46,5 +55,20 @@ describe('Unit tests ComicDetails page', () => {
     await userEvent.click(comebackButton);
 
     expect(mockedUseNavigate).toBeCalledWith(-1);
+  });
+
+  it('should to favorite comic', async () => {
+    await act(async () => {
+      render(
+        <ComicsContext.Provider value={mockedContextState}>
+          <ComicDetails />
+        </ComicsContext.Provider>
+      );
+    });
+
+    const comebackButton = screen.getByTestId('favorite-button');
+    await userEvent.click(comebackButton);
+
+    expect(myMockUseFavorite.favoriteComic).toBeCalled();
   });
 });

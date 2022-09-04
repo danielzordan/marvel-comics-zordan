@@ -44,19 +44,6 @@ describe('Unit tests Home page', () => {
     expect(mockedContextState.handleSearch).toBeCalledWith('spider');
   });
 
-  it('should call handleSearch correctly', async () => {
-    render(
-      <ComicsContext.Provider value={mockedContextState}>
-        <Home />
-      </ComicsContext.Provider>
-    );
-
-    const comicItem = screen.getAllByTestId('comic-item-content')[0];
-    await fireEvent.click(comicItem);
-
-    expect(mockedUseNavigate).toBeCalledTimes(1);
-  });
-
   it('should render correctly when have not comics', async () => {
     render(
       <ComicsContext.Provider
@@ -69,5 +56,34 @@ describe('Unit tests Home page', () => {
     const comicLoadingText = screen.getByText('Loading...');
 
     expect(comicLoadingText).not.toBe(undefined);
+  });
+
+  it('should not find favorited comic when filter is down', async () => {
+    render(
+      <ComicsContext.Provider value={mockedContextState}>
+        <Home />
+      </ComicsContext.Provider>
+    );
+
+    const favoritedComic = screen.queryByText('favorited-1');
+
+    expect(favoritedComic).toBe(null);
+  });
+
+  it('should find favorited comic when filter is up', async () => {
+    render(
+      <ComicsContext.Provider value={mockedContextState}>
+        <Home />
+      </ComicsContext.Provider>
+    );
+
+    const favoriteFilterButton = screen.getByTestId(
+      'home-favorite-filter-button'
+    );
+    await fireEvent.click(favoriteFilterButton);
+
+    const favoritedComic = screen.getByText('favorited-1');
+
+    expect(favoritedComic).not.toBe(undefined);
   });
 });

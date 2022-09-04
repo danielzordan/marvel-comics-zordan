@@ -4,7 +4,7 @@ import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FormEvent, useContext, useState } from 'react';
 import {
   ComicsContainer,
-  FavoriteFormButton,
+  FavoriteFilterButton,
   SearchForm,
   SearchFormButton,
   SearchFormInput,
@@ -33,7 +33,8 @@ export function Home() {
   return (
     <ComicsContainer>
       <SearchForm onSubmit={handleSubmitSearch} data-testid="home-search-form">
-        <FavoriteFormButton
+        <FavoriteFilterButton
+          data-testid="home-favorite-filter-button"
           type="button"
           title="Search comics"
           onClick={handleFilterFavoriteComics}
@@ -41,7 +42,7 @@ export function Home() {
         >
           <FontAwesomeIcon icon={faStar} />
           Favorites
-        </FavoriteFormButton>
+        </FavoriteFilterButton>
         <SearchFormInput
           data-testid="home-search-form-input"
           id="comicNameSearch"
