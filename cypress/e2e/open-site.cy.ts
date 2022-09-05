@@ -1,4 +1,4 @@
-describe('Visit Marvel Comics', () => {
+describe('Visit Marvel Comics Catalog', () => {
   beforeEach(() => {
     cy.visit('/');
   });

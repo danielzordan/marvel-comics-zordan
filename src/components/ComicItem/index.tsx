@@ -9,7 +9,6 @@ import {
   ComicItemContent,
   FavoriteButtonContainer,
 } from './styles';
-import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface ComicItemProps {
   comic: Comic;
