@@ -9,6 +9,7 @@ import {
   ComicItemContent,
   FavoriteButtonContainer,
 } from './styles';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface ComicItemProps {
   comic: Comic;
@@ -44,7 +45,11 @@ export function ComicItem({ comic, handleClickItem }: ComicItemProps) {
 
       <ComicItemContent onClick={handleClick} data-testid="comic-item-content">
         <ComicImageContainer>
-          <ComicImage src={comicThumnailUrl} alt={comicThumnailAlt} />
+          <ComicImage
+            src={comicThumnailUrl}
+            alt={comicThumnailAlt}
+            loading="lazy"
+          />
         </ComicImageContainer>
         <h2>{comic.title}</h2>
       </ComicItemContent>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const ComicItemContainer = styled.div`
   margin-top: 1rem;
@@ -39,12 +40,9 @@ export const ComicImageContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const ComicImage = styled.img`
+export const ComicImage = styled(LazyLoadImage)`
   max-width: 100%;
   max-height: 100%;
-
-  width: auto;
-  height: auto;
 `;
 
 export const FavoriteButtonContainer = styled.div`
