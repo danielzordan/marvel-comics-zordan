@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 import { FormEvent, useContext, useState } from 'react';
 import {
@@ -14,7 +14,8 @@ import { Pagination } from '../../components/Pagination';
 import { ComicsList } from '../../components/ComicsList';
 
 export function Home() {
-  const { comics, favoritedComics, handleSearch } = useContext(ComicsContext);
+  const { comics, favoritedComics, handleSearch, isLoadingComics } =
+    useContext(ComicsContext);
 
   const [searchValue, setSearchValue] = useState('');
   const [isActiveFavoriteFilter, setIsActiveFavoriteFilter] = useState(false);
@@ -40,7 +41,7 @@ export function Home() {
           onClick={handleFilterFavoriteComics}
           isActive={isActiveFavoriteFilter}
         >
-          <FontAwesomeIcon icon={faStar} />
+          <FontAwesomeIcon icon={faFilter} />
           Favorites
         </FavoriteFilterButton>
         <SearchFormInput
@@ -51,13 +52,23 @@ export function Home() {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <SearchFormButton type="submit" title="Search comics">
+        <SearchFormButton
+          type="submit"
+          title="Search comics"
+          data-testid="home-search-form-button"
+        >
           <FontAwesomeIcon icon={faSearch} />
           Search
         </SearchFormButton>
       </SearchForm>
 
-      <ComicsList comics={isActiveFavoriteFilter ? favoritedComics : comics} />
+      {isLoadingComics ? (
+        <h2>Loading...</h2>
+      ) : (
+        <ComicsList
+          comics={isActiveFavoriteFilter ? favoritedComics : comics}
+        />
+      )}
 
       <Pagination
         totalComics={

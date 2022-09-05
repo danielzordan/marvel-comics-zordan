@@ -22,6 +22,7 @@ export interface ComicsDataType {
 export interface ComicsContextType {
   comics: ComicsDataType;
   requestConfig: RequestConfig;
+  isLoadingComics: boolean;
   handleClickNextPage: () => void;
   handleClickNavigatePage: (page: number) => void;
   handleClickPreviousPage: () => void;
@@ -52,6 +53,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   });
 
   const [searchString, setSearchString] = useState('');
+  const [isLoadingComics, setIsLoadingComics] = useState(true);
   const [favoritedComics, setFavoritedComics] = useState<ComicsDataType>({
     total: 0,
     comicsList: [],
@@ -80,6 +82,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     const { results: comicsList, total } = data.data;
 
     if (total > 0) {
+      setIsLoadingComics(false);
       setComics({
         total,
         comicsList,
@@ -204,6 +207,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
     return {
       comics,
       requestConfig,
+      isLoadingComics,
       loadComic,
       handleClickNextPage,
       handleClickNavigatePage,
@@ -217,6 +221,7 @@ export function ComicsProvider({ children }: ComicsProviderProps) {
   }, [
     comics,
     requestConfig,
+    isLoadingComics,
     loadComic,
     handleClickNextPage,
     handleClickNavigatePage,

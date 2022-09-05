@@ -36,6 +36,6 @@ export function ComicsList({ comics }: ComicsListProps) {
       ))}
     </ComicsListContainer>
   ) : (
-    <h1>Loading...</h1>
+    <h2>There is no items in list</h2>
   );
 }

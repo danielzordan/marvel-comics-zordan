@@ -97,6 +97,7 @@ export const mockedContextState: ComicsContextType = {
   comics: mockedComics,
   favoritedComics: mockedFavoritedComics,
   requestConfig: mockedRequestConfig,
+  isLoadingComics: false,
   handleClickNextPage: jest.fn(),
   handleClickNavigatePage: jest.fn(),
   handleClickPreviousPage: jest.fn(),

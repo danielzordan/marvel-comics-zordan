@@ -61,7 +61,7 @@ export function Pagination({ totalComics }: PaginationProps) {
       <ParginationButton
         type="button"
         onClick={handleClickNextPage}
-        disabled={currentPage === numberOfPages}
+        disabled={!totalComics || currentPage === numberOfPages}
         data-testid="pagination-button-next-page"
       >
         <FontAwesomeIcon icon={faArrowRight} />

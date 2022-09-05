@@ -53,6 +53,20 @@ describe('Unit tests Home page', () => {
       </ComicsContext.Provider>
     );
 
+    const comicLoadingText = screen.getByText('There is no items in list');
+
+    expect(comicLoadingText).not.toBe(undefined);
+  });
+
+  it('should render correctly when comics are loading', async () => {
+    render(
+      <ComicsContext.Provider
+        value={{ ...mockedContextState, isLoadingComics: true }}
+      >
+        <Home />
+      </ComicsContext.Provider>
+    );
+
     const comicLoadingText = screen.getByText('Loading...');
 
     expect(comicLoadingText).not.toBe(undefined);
