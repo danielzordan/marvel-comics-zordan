@@ -36,6 +36,7 @@ export function Pagination({ totalComics }: PaginationProps) {
   return (
     <PaginationFormContainer>
       <ParginationButton
+        aria-label="Button to previous page list"
         type="button"
         onClick={handleClickPreviousPage}
         disabled={currentPage === 1}
@@ -49,6 +50,7 @@ export function Pagination({ totalComics }: PaginationProps) {
           .map((page) => (
             <li key={page}>
               <ParginationButton
+                aria-label={`Button to page ${page} list`}
                 type="button"
                 onClick={() => handleClickNavigatePage(page - 1)}
                 disabled={page === currentPage}
@@ -59,6 +61,7 @@ export function Pagination({ totalComics }: PaginationProps) {
           ))}
       </ListButtons>
       <ParginationButton
+        aria-label="Button to next page list"
         type="button"
         onClick={handleClickNextPage}
         disabled={!totalComics || currentPage === numberOfPages}

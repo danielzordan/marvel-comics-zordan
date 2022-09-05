@@ -93,17 +93,13 @@ export const mockedRequestConfig = {
   ts: 1,
 };
 
-export const mockedContextState: ComicsContextType = {
+export const mockedComicsContextState: ComicsContextType = {
   comics: mockedComics,
-  favoritedComics: mockedFavoritedComics,
   requestConfig: mockedRequestConfig,
   isLoadingComics: false,
   handleClickNextPage: jest.fn(),
   handleClickNavigatePage: jest.fn(),
   handleClickPreviousPage: jest.fn(),
-  getStoragedFavoritedComics: jest.fn(),
-  addFavoritedComics: jest.fn(),
-  removeFavoritedComics: jest.fn(),
   handleSearch: jest.fn(),
   loadComic: jest.fn().mockImplementation(() => {
     return mockedComics.comicsList[0];

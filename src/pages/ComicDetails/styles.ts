@@ -71,8 +71,8 @@ export const ComicImage = styled.img`
 `;
 
 export const ComebackButton = styled.button`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 4px;
   border: 0;
   margin-bottom: 1rem;

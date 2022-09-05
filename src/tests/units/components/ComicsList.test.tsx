@@ -3,7 +3,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComicsList } from '../../../components/ComicsList';
 import { ComicsContext } from '../../../contexts/ComicsContext';
-import { mockedContextState, mockedComics } from '../__mocks__/context';
+import {
+  mockedComicsContextState,
+  mockedComics,
+} from '../__mocks__/comicsContext';
+import { myMockUseFavorite } from '../__mocks__/favoriteComicsContext';
 
 const mockedUseNavigate = jest.fn();
 
@@ -11,11 +15,6 @@ jest.mock('react-router-dom', () => ({
   ...(jest.requireActual('react-router-dom') as any),
   useNavigate: () => mockedUseNavigate,
 }));
-
-const myMockUseFavorite = {
-  isFavorite: jest.fn().mockImplementation(() => true),
-  favoriteComic: jest.fn(),
-};
 
 jest.mock('../../../hooks/useFavorite', () => ({
   useFavorite: () => myMockUseFavorite,
@@ -28,7 +27,7 @@ describe('Unit tests ComicsList component', () => {
 
   it('should render correctly ', () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <ComicsList comics={mockedComics} />
       </ComicsContext.Provider>
     );
@@ -40,7 +39,7 @@ describe('Unit tests ComicsList component', () => {
 
   it('should call navigate correctly', async () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <ComicsList comics={mockedComics} />
       </ComicsContext.Provider>
     );

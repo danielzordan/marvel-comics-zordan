@@ -1,14 +1,23 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { fireEvent, render, screen } from '@testing-library/react';
 import { ComicsContext } from '../../../contexts/ComicsContext';
+import { FavoriteComicsContext } from '../../../contexts/FavoriteComicsContext';
 import { Home } from '../../../pages/Home';
-import { mockedContextState } from '../__mocks__/context';
+import { mockedComicsContextState } from '../__mocks__/comicsContext';
+import {
+  mockedFavoriteComicsContextState,
+  myMockUseFavorite,
+} from '../__mocks__/favoriteComicsContext';
 
 const mockedUseNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
   ...(jest.requireActual('react-router-dom') as any),
   useNavigate: () => mockedUseNavigate,
+}));
+
+jest.mock('../../../hooks/useFavorite', () => ({
+  useFavorite: () => myMockUseFavorite,
 }));
 
 describe('Unit tests Home page', () => {
@@ -18,7 +27,7 @@ describe('Unit tests Home page', () => {
 
   it('should render correctly', () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <Home />
       </ComicsContext.Provider>
     );
@@ -30,7 +39,7 @@ describe('Unit tests Home page', () => {
 
   it('should call handleSearch correctly', async () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <Home />
       </ComicsContext.Provider>
     );
@@ -40,14 +49,17 @@ describe('Unit tests Home page', () => {
     await fireEvent.change(searchFormInput, { target: { value: 'spider' } });
     await fireEvent.submit(searchForm);
 
-    expect(mockedContextState.handleSearch).toBeCalledTimes(1);
-    expect(mockedContextState.handleSearch).toBeCalledWith('spider');
+    expect(mockedComicsContextState.handleSearch).toBeCalledTimes(1);
+    expect(mockedComicsContextState.handleSearch).toBeCalledWith('spider');
   });
 
   it('should render correctly when have not comics', async () => {
     render(
       <ComicsContext.Provider
-        value={{ ...mockedContextState, comics: { total: 0, comicsList: [] } }}
+        value={{
+          ...mockedComicsContextState,
+          comics: { total: 0, comicsList: [] },
+        }}
       >
         <Home />
       </ComicsContext.Provider>
@@ -61,7 +73,7 @@ describe('Unit tests Home page', () => {
   it('should render correctly when comics are loading', async () => {
     render(
       <ComicsContext.Provider
-        value={{ ...mockedContextState, isLoadingComics: true }}
+        value={{ ...mockedComicsContextState, isLoadingComics: true }}
       >
         <Home />
       </ComicsContext.Provider>
@@ -74,8 +86,12 @@ describe('Unit tests Home page', () => {
 
   it('should not find favorited comic when filter is down', async () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
-        <Home />
+      <ComicsContext.Provider value={mockedComicsContextState}>
+        <FavoriteComicsContext.Provider
+          value={mockedFavoriteComicsContextState}
+        >
+          <Home />
+        </FavoriteComicsContext.Provider>
       </ComicsContext.Provider>
     );
 
@@ -86,8 +102,12 @@ describe('Unit tests Home page', () => {
 
   it('should find favorited comic when filter is up', async () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
-        <Home />
+      <ComicsContext.Provider value={mockedComicsContextState}>
+        <FavoriteComicsContext.Provider
+          value={mockedFavoriteComicsContextState}
+        >
+          <Home />
+        </FavoriteComicsContext.Provider>
       </ComicsContext.Provider>
     );
 

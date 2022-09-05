@@ -12,10 +12,11 @@ import {
 import { ComicsContext } from '../../contexts/ComicsContext';
 import { Pagination } from '../../components/Pagination';
 import { ComicsList } from '../../components/ComicsList';
+import { useFavorite } from '../../hooks/useFavorite';
 
 export function Home() {
-  const { comics, favoritedComics, handleSearch, isLoadingComics } =
-    useContext(ComicsContext);
+  const { comics, handleSearch, isLoadingComics } = useContext(ComicsContext);
+  const { favoritedComics } = useFavorite();
 
   const [searchValue, setSearchValue] = useState('');
   const [isActiveFavoriteFilter, setIsActiveFavoriteFilter] = useState(false);
@@ -36,6 +37,7 @@ export function Home() {
       <SearchForm onSubmit={handleSubmitSearch} data-testid="home-search-form">
         <FavoriteFilterButton
           data-testid="home-favorite-filter-button"
+          aria-label="Filter favorite comics"
           type="button"
           title="Search comics"
           onClick={handleFilterFavoriteComics}
@@ -53,6 +55,7 @@ export function Home() {
           onChange={(e) => setSearchValue(e.target.value)}
         />
         <SearchFormButton
+          aria-label="Search comics by title"
           type="submit"
           title="Search comics"
           data-testid="home-search-form-button"

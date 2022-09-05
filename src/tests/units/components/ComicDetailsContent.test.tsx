@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react';
 import { ComicDetailsContent } from '../../../components/ComicDetailsContent';
 import { ComicsContext } from '../../../contexts/ComicsContext';
 import {
-  mockedContextState,
+  mockedComicsContextState,
   mockedComics,
   mockedComicsNullValues,
-} from '../__mocks__/context';
+} from '../__mocks__/comicsContext';
 
 describe('Unit tests ComicDetailsContent component', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Unit tests ComicDetailsContent component', () => {
 
   it('should render correctly when have data in comic fields', () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <ComicDetailsContent comic={mockedComics.comicsList[0]} />
       </ComicsContext.Provider>
     );
@@ -33,7 +33,7 @@ describe('Unit tests ComicDetailsContent component', () => {
 
   it('should render correctly when have data in comic fields', () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <ComicDetailsContent comic={mockedComicsNullValues.comicsList[0]} />
       </ComicsContext.Provider>
     );

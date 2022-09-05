@@ -70,6 +70,7 @@ export function ComicDetails() {
         <ComicsDetailsContent>
           <ActionsContainer>
             <ComebackButton
+              aria-label="Navigate back to home"
               type="button"
               onClick={() => navigate(-1)}
               data-testid="comic-details-comeback-button"

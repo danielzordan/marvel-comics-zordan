@@ -42,3 +42,8 @@ export interface Comic {
   creators: CreatorsType;
   characters: CharactersType;
 }
+
+export interface ComicsDataType {
+  total: number;
+  comicsList: Comic[];
+}

@@ -1,10 +1,12 @@
 import { renderHook } from '@testing-library/react';
 import React from 'react';
-import { mockedContextState } from '../__mocks__/context';
+import { mockedFavoriteComicsContextState } from '../__mocks__/favoriteComicsContext';
 
 import { useFavorite } from '../../../hooks/useFavorite';
 
-jest.spyOn(React, 'useContext').mockImplementation(() => mockedContextState);
+jest
+  .spyOn(React, 'useContext')
+  .mockImplementation(() => mockedFavoriteComicsContextState);
 
 describe('useFavorite hook unit tests', () => {
   beforeEach(() => {
@@ -28,23 +30,23 @@ describe('useFavorite hook unit tests', () => {
   });
 
   // Esses dois testes eu não consegui fazer passar
-  // Desconfio que o problema é que no mockImplementation o objeto retornado não é o mockedContextState
+  // Desconfio que o problema é que no mockImplementation o objeto retornado não é o mockedFavoriteComicsContextState
   // Mas sim uma cópia, por isso a referência é perdida e o expect acaba falhando
   // Passei um bom tempo pesquisando mas infelizmente não consegui achar a solução disso
 
   // test('should call addFavoritedComics when comic is not in favorites', () => {
   //   const { result } = renderHook(useFavorite);
 
-  //   result.current.favoriteComic(mockedContextState.comics.comicsList[0]);
+  //   result.current.favoriteComic(mockedFavoriteComicsContextState.comics.comicsList[0]);
 
-  //   expect(mockedContextState.addFavoritedComics).toBeCalledTimes(1);
+  //   expect(mockedFavoriteComicsContextState.addFavoritedComics).toBeCalledTimes(1);
   // });
 
   // test('should call removeFavoritedComics when comic is in favorites', () => {
   //   const { result } = renderHook(useFavorite);
 
-  //   result.current.favoriteComic(mockedContextState.comics.comicsList[1]);
+  //   result.current.favoriteComic(mockedFavoriteComicsContextState.comics.comicsList[1]);
 
-  //   expect(mockedContextState.removeFavoritedComics).toBeCalledTimes(1);
+  //   expect(mockedFavoriteComicsContextState.removeFavoritedComics).toBeCalledTimes(1);
   // });
 });

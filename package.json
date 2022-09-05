@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test-unit": "jest --coverage",
-    "test-e2e": "cypress open"
+    "test:unit": "jest --coverage",
+    "test:e2e": "cypress open"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",

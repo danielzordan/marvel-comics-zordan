@@ -14,6 +14,7 @@ export function FavoriteButton({
 }: FavoriteButtonProps) {
   return (
     <FavoriteButtonComponent
+      aria-label="Add this comic to favorite"
       data-testid="favorite-button"
       type="button"
       title={isFavoriteComic ? 'Unfavorite comic' : 'Favorite comic'}

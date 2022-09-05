@@ -3,7 +3,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Pagination } from '../../../components/Pagination';
 import { ComicsContext } from '../../../contexts/ComicsContext';
-import { mockedContextState, mockedComics } from '../__mocks__/context';
+import {
+  mockedComicsContextState,
+  mockedComics,
+} from '../__mocks__/comicsContext';
 
 describe('Unit tests Pagination component', () => {
   beforeEach(() => {
@@ -12,7 +15,7 @@ describe('Unit tests Pagination component', () => {
 
   it('should render correctly in position 0', () => {
     render(
-      <ComicsContext.Provider value={mockedContextState}>
+      <ComicsContext.Provider value={mockedComicsContextState}>
         <Pagination totalComics={mockedComics.total} />
       </ComicsContext.Provider>
     );
@@ -26,7 +29,7 @@ describe('Unit tests Pagination component', () => {
     render(
       <ComicsContext.Provider
         value={{
-          ...mockedContextState,
+          ...mockedComicsContextState,
           requestConfig: {
             offset: 1,
             limit: 30,
@@ -42,14 +45,14 @@ describe('Unit tests Pagination component', () => {
 
     await userEvent.click(buttonToPage2);
 
-    expect(mockedContextState.handleClickNavigatePage).toBeCalledTimes(1);
+    expect(mockedComicsContextState.handleClickNavigatePage).toBeCalledTimes(1);
   });
 
   it('should navigate correctly to next page', async () => {
     render(
       <ComicsContext.Provider
         value={{
-          ...mockedContextState,
+          ...mockedComicsContextState,
           requestConfig: {
             offset: 0,
             limit: 30,
@@ -65,14 +68,14 @@ describe('Unit tests Pagination component', () => {
 
     await userEvent.click(buttonToNextPage);
 
-    expect(mockedContextState.handleClickNextPage).toBeCalledTimes(1);
+    expect(mockedComicsContextState.handleClickNextPage).toBeCalledTimes(1);
   });
 
   it('should navigate correctly to previous page', async () => {
     render(
       <ComicsContext.Provider
         value={{
-          ...mockedContextState,
+          ...mockedComicsContextState,
           requestConfig: {
             offset: 1,
             limit: 30,
@@ -90,6 +93,6 @@ describe('Unit tests Pagination component', () => {
 
     await userEvent.click(buttonToPreviousPage);
 
-    expect(mockedContextState.handleClickPreviousPage).toBeCalledTimes(1);
+    expect(mockedComicsContextState.handleClickPreviousPage).toBeCalledTimes(1);
   });
 });

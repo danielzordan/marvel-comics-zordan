@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const PaginationFormContainer = styled.div`
   width: 100%;
-  height: 2.5rem;
+  height: 3.5rem;
 
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -22,8 +22,8 @@ export const PaginationFormContainer = styled.div`
 `;
 
 export const ParginationButton = styled.button`
-  width: 2rem;
-  height: 1.5rem;
+  width: 3rem;
+  height: 3rem;
   background: ${(props) => props.theme['--secondary']};
   color: ${(props) => props.theme['--secondary-900']};
   border: 0;

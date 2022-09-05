@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import { ComicsContext } from '../../../contexts/ComicsContext';
 import { ComicDetails } from '../../../pages/ComicDetails';
-import { mockedContextState } from '../__mocks__/context';
+import { mockedComicsContextState } from '../__mocks__/comicsContext';
 
 const mockedUseNavigate = jest.fn();
 const mockedUseLocation = jest.fn();
@@ -33,19 +33,19 @@ describe('Unit tests ComicDetails page', () => {
   it('should render correctly', async () => {
     await act(async () => {
       render(
-        <ComicsContext.Provider value={mockedContextState}>
+        <ComicsContext.Provider value={mockedComicsContextState}>
           <ComicDetails />
         </ComicsContext.Provider>
       );
     });
 
-    expect(mockedContextState.loadComic).toBeCalled();
+    expect(mockedComicsContextState.loadComic).toBeCalled();
   });
 
   it('should navigate correctly to home', async () => {
     await act(async () => {
       render(
-        <ComicsContext.Provider value={mockedContextState}>
+        <ComicsContext.Provider value={mockedComicsContextState}>
           <ComicDetails />
         </ComicsContext.Provider>
       );
@@ -60,7 +60,7 @@ describe('Unit tests ComicDetails page', () => {
   it('should to favorite comic', async () => {
     await act(async () => {
       render(
-        <ComicsContext.Provider value={mockedContextState}>
+        <ComicsContext.Provider value={mockedComicsContextState}>
           <ComicDetails />
         </ComicsContext.Provider>
       );
